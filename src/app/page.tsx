@@ -1,5 +1,4 @@
 import Counter from "@/Components/Counter";
-import Dashboard from "@/Components/Dashboard";
 import RichTextEditor from "@/Components/RichTextEditor";
 import UserForm from "@/Components/useForm";
 
@@ -15,7 +14,6 @@ export default function Home() {
         </div>
       </div>
       <UserForm />
-      <Dashboard />
     </div>
   );
 }

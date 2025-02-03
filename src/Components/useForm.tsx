@@ -1,28 +1,116 @@
-"use client"
-import { useState, useEffect } from "react";
+"use client";
 
-const UserForm = () => {
-  const [formData, setFormData] = useState({ name: "", address: "", email: "", phone: "" });
-  const [userId, setUserId] = useState("");
+import React, { useState, useEffect } from "react";
+import {  usePathname } from "next/navigation";  // For route changes in Next.js
 
+import { TextField, Button, Paper, Box, Typography, Snackbar, Alert } from "@mui/material";
+import { v4 as uuidv4 } from "uuid";
+
+export default function UserForm() {
+  const [formData, setFormData] = useState({
+    userId: "",
+    name: "",
+    address: "",
+    email: "",
+    phone: "",
+  });
+
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  // Load data from localStorage on mount
   useEffect(() => {
-    setUserId(`USER-${Date.now()}`);
+    const savedData = localStorage.getItem("userForm");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    localStorage.setItem("user", JSON.stringify({ ...formData, userId }));
+  // Save changes to localStorage whenever formData updates
+  useEffect(() => {
+    localStorage.setItem("userForm", JSON.stringify(formData));
+  }, [formData]);
+
+  // Warn before closing/refreshing the page
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (unsavedChanges) {
+        event.preventDefault();
+        event.returnValue = "You have unsaved changes. Do you really want to leave?";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [unsavedChanges]);
+
+  // Warn before navigating to another page in Next.js
+  const pathname = usePathname();
+
+useEffect(() => {
+  const handleRouteChange = () => {
+    if (unsavedChanges && !confirm("You have unsaved changes. Do you really want to leave?")) {
+      throw "Route change aborted."; // Prevent navigation
+    }
+  };
+
+  handleRouteChange(); // Check if user tries to navigate
+
+}, [pathname, unsavedChanges]);
+
+  // Handle form input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setUnsavedChanges(true);
+  };
+
+  // Handle form submission
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!formData.userId) {
+      formData.userId = uuidv4(); // Auto-generate user ID
+    }
+
+    localStorage.setItem("userForm", JSON.stringify(formData)); // Save data to Local Storage
+    setUnsavedChanges(false);
+    setOpenSnackbar(true);
   };
 
   return (
-    <form className="p-5 border rounded-lg" onSubmit={handleSubmit}>
-      <input type="text" placeholder="Name" className="input input-bordered w-full" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-      <input type="text" placeholder="Address" className="input input-bordered w-full mt-2" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
-      <input type="email" placeholder="Email" className="input input-bordered w-full mt-2" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-      <input type="tel" placeholder="Phone" className="input input-bordered w-full mt-2" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
-      <button className="btn btn-primary mt-3" type="submit">Submit</button>
-    </form>
-  );
-};
+    <Paper
+      elevation={6}
+      sx={{
+        maxWidth: 400,
+        mx: "auto",
+        mt: 5,
+        p: 4,
+        borderRadius: 3,
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <Typography variant="h5" textAlign="center" gutterBottom>
+        User Data Form
+      </Typography>
 
-export default UserForm;
+      <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <TextField label="Name" name="name" variant="outlined" fullWidth value={formData.name} onChange={handleChange} required />
+        <TextField label="Address" name="address" variant="outlined" fullWidth value={formData.address} onChange={handleChange} required />
+        <TextField label="Email" name="email" variant="outlined" fullWidth type="email" value={formData.email} onChange={handleChange} required />
+        <TextField label="Phone" name="phone" variant="outlined" fullWidth type="tel" value={formData.phone} onChange={handleChange} required />
+        <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+          Submit
+        </Button>
+      </Box>
+
+      {/* Snackbar notification for form submission */}
+      <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={() => setOpenSnackbar(false)}>
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: "100%" }}>
+          Form submitted successfully!
+        </Alert>
+      </Snackbar>
+    </Paper>
+  );
+}
