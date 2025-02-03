@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
-
 export default {
+  important: true, // Ensures Tailwind classes override inline styles
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
