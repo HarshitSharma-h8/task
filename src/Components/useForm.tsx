@@ -1,5 +1,4 @@
 "use client";
-export const dynamic = "force-dynamic";
 
 import React, { useState, useEffect } from "react";
 import {  usePathname } from "next/navigation";  // For route changes in Next.js

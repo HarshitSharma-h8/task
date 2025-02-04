@@ -1,7 +1,10 @@
-// "use client";
-import Counter from "@/Components/Counter";
+"use client";
 import RichTextEditor from "@/Components/RichTextEditor";
 import UserForm from "@/Components/useForm";
+
+import dynamic from "next/dynamic";
+
+const Counter = dynamic(() => import("@/Components/Counter"));
 
 export default function Home() {
   return (
