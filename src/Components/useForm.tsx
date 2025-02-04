@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 
 import React, { useState, useEffect } from "react";
 import {  usePathname } from "next/navigation";  // For route changes in Next.js
@@ -20,40 +21,73 @@ export default function UserForm() {
   
 
   // Load data from localStorage on mount
+  // useEffect(() => {
+  //   const savedData = localStorage.getItem("userForm");
+  //   if (savedData) {
+  //     setFormData(JSON.parse(savedData));
+  //   }
+  // }, []);
+
+  // // Save changes to localStorage whenever formData updates
+  // useEffect(() => {
+  //   localStorage.setItem("userForm", JSON.stringify(formData));
+  // }, [formData]);
+
+  // // Warn before closing/refreshing the page
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  //     if (unsavedChanges) {
+  //       event.preventDefault();
+  //       event.returnValue = "You have unsaved changes. Do you really want to leave?";
+  //     }
+  //   };
+  //   window?.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     window?.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, [unsavedChanges]);
+
   useEffect(() => {
-    const savedData = localStorage.getItem("userForm");
-    if (savedData) {
-      setFormData(JSON.parse(savedData));
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("userForm");
+      if (savedData) {
+        setFormData(JSON.parse(savedData));
+      }
     }
   }, []);
-
-  // Save changes to localStorage whenever formData updates
+  
   useEffect(() => {
-    localStorage.setItem("userForm", JSON.stringify(formData));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userForm", JSON.stringify(formData));
+    }
   }, [formData]);
-
-  // Warn before closing/refreshing the page
+  
   useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (unsavedChanges) {
-        event.preventDefault();
-        event.returnValue = "You have unsaved changes. Do you really want to leave?";
-      }
-    };
-    window?.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window?.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    if (typeof window !== "undefined") {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        if (unsavedChanges) {
+          event.preventDefault();
+          event.returnValue = "You have unsaved changes. Do you really want to leave?";
+        }
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+  
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
   }, [unsavedChanges]);
+  
 
   // Warn before navigating to another page in Next.js
   const pathname = usePathname();
 
 useEffect(() => {
   const handleRouteChange = () => {
-    if (unsavedChanges && !confirm("You have unsaved changes. Do you really want to leave?")) {
-      throw "Route change aborted."; // Prevent navigation
+    if (unsavedChanges) {
+      const confirmLeave = window.confirm("You have unsaved changes. Do you really want to leave?");
+      if (!confirmLeave) return;
     }
   };
 
