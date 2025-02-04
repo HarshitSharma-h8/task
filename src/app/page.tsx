@@ -14,7 +14,7 @@ export default function Home() {
         <div className="md:w-1/2 mb-10 md:mb-0 ">
           <Counter />
         </div>
-        <div className="md:w-1/2 box">
+        <div className="md:w-1/2 min-h-[50vh]">
           <RichTextEditor />
         </div>
       </div>
