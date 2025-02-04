@@ -30,7 +30,7 @@ export default function Counter() {
     >
 
       <div className="counter-box ">
-        <h2 className="text-8xl font-bold mb-4 ">
+        <h2 className="counter-text">
           {count}
         </h2>
         <div className="flex space-x-4">
