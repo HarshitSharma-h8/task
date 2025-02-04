@@ -21,7 +21,7 @@ export default function UserForm() {
   
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" ) {
       const savedData = localStorage.getItem("userForm");
       if (savedData) {
         setFormData(JSON.parse(savedData));
