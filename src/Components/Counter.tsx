@@ -1,5 +1,5 @@
 "use client";
-
+import "./style.css"
 
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -25,7 +25,7 @@ export default function Counter() {
   const AnimatedDiv = animated('div');
   return (
     <AnimatedDiv
-      className="flex flex-col items-center justify-center h-full transition-all duration-500 rounded-lg min-h-[50vh]"
+      className="flex flex-col items-center justify-center h-full transition-all duration-500 rounded-lg  box"
       style={springStyles }
     >
 
