@@ -17,6 +17,7 @@ export default function UserForm() {
 
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  
 
   // Load data from localStorage on mount
   useEffect(() => {
@@ -39,10 +40,10 @@ export default function UserForm() {
         event.returnValue = "You have unsaved changes. Do you really want to leave?";
       }
     };
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    window?.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window?.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [unsavedChanges]);
 
