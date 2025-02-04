@@ -29,7 +29,7 @@ export default function Counter() {
       style={springStyles }
     >
 
-      <div className="bg-white p-6 rounded-lg shadow-lg text-center ">
+      <div className="counter-box ">
         <h2 className="text-8xl font-bold mb-4 ">
           {count}
         </h2>

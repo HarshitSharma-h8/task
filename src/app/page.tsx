@@ -13,7 +13,7 @@ export default function Home() {
         <div className="md:w-1/2 mb-10 md:mb-0 ">
           <Counter />
         </div>
-        <div className="lg:w-1/2">
+        <div className="md:w-1/2">
           <RichTextEditor />
         </div>
       </div>
