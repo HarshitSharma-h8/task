@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import Counter from "@/Components/Counter";
 import RichTextEditor from "@/Components/RichTextEditor";
 import UserForm from "@/Components/useForm";
