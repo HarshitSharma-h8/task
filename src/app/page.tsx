@@ -1,11 +1,11 @@
 "use client";
-import RichTextEditor from "@/Components/RichTextEditor";
-import UserForm from "@/Components/useForm";
-
+// import RichTextEditor from "@/Components/RichTextEditor";
+// import Counter from "@/Components/Counter";
 import dynamic from "next/dynamic";
 
-const Counter = dynamic(() => import("@/Components/Counter"), {ssr: false});
-
+const RichTextEditor = dynamic(() => import("@/Components/RichTextEditor"), { ssr: false });
+const Counter = dynamic(() => import("@/Components/Counter"), { ssr: false });
+const UserForm = dynamic(() => import("@/Components/useForm"), { ssr: false });
 export default function Home() {
   return (
     <div className="p-10">
