@@ -25,7 +25,7 @@ export default function Counter() {
   const AnimatedDiv = animated('div');
   return (
     <AnimatedDiv
-      className="flex flex-col items-center justify-center h-full transition-all duration-500 rounded-lg  box"
+      className="flex flex-col items-center justify-center h-full transition-all duration-500 rounded-lg  box box-center"
       style={springStyles }
     >
 

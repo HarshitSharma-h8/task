@@ -10,11 +10,17 @@
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
                 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
     text-align: center; /* text-center */
-    width: 50%;
+    width: 30%;
 }
 
 .counter-text{
     font-size: 6rem;
     font-weight: 800;
     margin-bottom: 1rem;
+}
+
+.counter-center{
+    flex: display;
+    justify-content: center;
+    align-items: center;
 }

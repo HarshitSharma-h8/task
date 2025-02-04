@@ -11,7 +11,7 @@ const RichTextEditor = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   return (
-    <div className="p-5 border rounded-lg h-full w-full bg-white  box">
+    <div className="p-5 border  h-full w-full bg-white  box">
       <Editor editorState={editorState} onEditorStateChange={setEditorState} />
     </div>
   );

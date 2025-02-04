@@ -2,6 +2,7 @@
 // import RichTextEditor from "@/Components/RichTextEditor";
 // import Counter from "@/Components/Counter";
 import dynamic from "next/dynamic";
+import "../Components/style.css";
 
 const RichTextEditor = dynamic(() => import("@/Components/RichTextEditor"), { ssr: false });
 const Counter = dynamic(() => import("@/Components/Counter"), { ssr: false });
@@ -13,7 +14,7 @@ export default function Home() {
         <div className="md:w-1/2 mb-10 md:mb-0 ">
           <Counter />
         </div>
-        <div className="md:w-1/2">
+        <div className="md:w-1/2 box">
           <RichTextEditor />
         </div>
       </div>
