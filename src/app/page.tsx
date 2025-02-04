@@ -4,7 +4,7 @@ import UserForm from "@/Components/useForm";
 
 import dynamic from "next/dynamic";
 
-const Counter = dynamic(() => import("@/Components/Counter"));
+const Counter = dynamic(() => import("@/Components/Counter"), {ssr: false});
 
 export default function Home() {
   return (
